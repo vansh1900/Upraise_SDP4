@@ -27,15 +27,19 @@ const DonationSchema = new mongoose.Schema({
     },
     pickup_status: {
         type:Boolean,
+        default: false
     },
     distribution_status:{
         type:Boolean,
+        default: false
     },
     consumer_details :{
-        type:String
+        type:String,
+        default: ""
     },
     picked_by :{
-        type:String
+        type:String,
+        default: false
     }
 })
 

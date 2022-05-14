@@ -63,10 +63,10 @@ export default function AssignOrg() {
                                                                 </div>
 
                                                                 <div style={{ display: 'inline-flex' }}>
-                                                                    <b>Mobile: </b><p>{data.email}</p>
+                                                                    <b>Mobile: </b><p>{data.mobile}</p>
                                                                 </div>
                                                                 <div style={{ display: 'inline-flex' }}>
-                                                                    <b>Address: </b><p>{data.mobile}</p>
+                                                                    <b>Address: </b><p>{data.address}</p>
                                                                 </div>
                                                                 <div>
                                                                     <button className='btn btn-secondary' onClick={(e) => { AssignOrg(data.email) }}>Assign</button>

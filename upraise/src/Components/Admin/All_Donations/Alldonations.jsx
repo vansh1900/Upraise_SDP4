@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Admheader from '../AdmHeader/Admheader'
 import axios from 'axios'
 
-export default function AssignVolnt() {
+export default function Alldonations() {
 
-    const [volunteers, setvolunteers] = useState([])
+    const [donations, setdonations] = useState([])
 
 
 
@@ -13,27 +13,15 @@ export default function AssignVolnt() {
     }, [])
 
     const getData = () => {
-        axios.get('http://localhost:9000/admin/signup_confirm/volunteer')
+        axios.get('http://localhost:9000/admin/getAllDonations')
             .then((resp) => {
-                setvolunteers(resp.data)
+                setdonations(resp.data)
                 console.log(resp.data);
             })
             .catch((Err) => {
                 console.log("Error : ", Err);
             })
     }
-
-    const AssignVolunteer = (volemail) => {
-        axios.put(`http://localhost:9000/admin/volunteer_sign_up/${volemail}`)
-            .then((resp) => {
-                console.log(resp);
-                getData()
-            })
-            .catch((Err) => {
-                console.log("Errror", Err);
-            })
-    }
-
 
     return (
         <div>
@@ -43,37 +31,41 @@ export default function AssignVolnt() {
                     <div className='row'>
                         <div >
                             {
-                                volunteers.length>0 ?
+                                donations.length > 0 ?
                                     <div className='row'>
                                         {
-                                            volunteers.map((data) =>
+                                            donations.map((data) =>
                                                 <div className="col-lg-4 col-sm-6">
                                                     <div className="card" style={{ borderRadius: '7px', marginBottom: '15px' }}>
                                                         <div className="card-body">
                                                             <h5 className="card-title">
                                                                 <div style={{ textAlign: 'center' }}>
-                                                                    <b>Volunteer</b><br/>
-                                                                    <b>{data.username}</b>
+                                                                    <b>{data.consumer_details}</b><br />
+                                                                    <b>Organization</b>
                                                                 </div>
                                                             </h5>
                                                             <br />
                                                             <div>
                                                                 <div style={{ display: 'inline-flex' }}>
-                                                                    <b>Email: </b><p>{data.email}</p>
+                                                                    <b>Donar Email: </b><p>{data.donator_email}</p>
                                                                 </div>
 
                                                                 <div style={{ display: 'inline-flex' }}>
-                                                                    <b>Mobile: </b><p>{data.mobile}</p>
+                                                                    <b>Category: </b><p>{data.category}</p>
                                                                 </div>
                                                                 <div style={{ display: 'inline-flex' }}>
-                                                                    <b>Address: </b><p>{data.address}</p>
+                                                                    <b>Quantity: </b><p>{data.category}</p>
                                                                 </div>
                                                                 <div style={{ display: 'inline-flex' }}>
-                                                                    <b>prior_experience: </b><p>{data.prior_experience}</p>
+                                                                    <b>Address: </b><p>{data.pickup_address}</p>
                                                                 </div>
-                                                                <div>
-                                                                    <button className='btn btn-secondary' onClick={(e) => { AssignVolunteer(data.email) }}>Assign</button>
-                                                                </div>
+                                                                {
+                                                                    data.picked_by ?
+                                                                        <div style={{ display: 'inline-flex' }}>
+                                                                            <b>Volunteer: </b><p>{data.picked_by}</p>
+                                                                        </div>
+                                                                        : ""
+                                                                }
                                                             </div>
                                                             <br />
                                                         </div>
@@ -86,7 +78,7 @@ export default function AssignVolnt() {
                                     <div>
                                         <div className='jumbotron'>
 
-                                            No new Volunteers has been registered
+                                            No new donations has been registered
                                         </div>
                                     </div>
                             }

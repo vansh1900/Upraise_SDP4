@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import Admheader from '../AdmHeader/Admheader'
+import Orgheader from '../OrgHeader/Orgheader'
 import axios from 'axios'
 
-export default function AssignVolnt() {
+export default function Allrequests() {
 
-    const [volunteers, setvolunteers] = useState([])
+    const [donations, setdonations] = useState([])
 
-
+    const [orgdetails, setorgdetails] = useState(JSON.parse(localStorage.getItem('details')) || {})
 
     useEffect(() => {
         getData();
     }, [])
 
     const getData = () => {
-        axios.get('http://localhost:9000/admin/signup_confirm/volunteer')
+        axios.get(`http://localhost:9000/org/allRequests/${orgdetails.organization_name}`)
             .then((resp) => {
-                setvolunteers(resp.data)
+                setdonations(resp.data)
                 console.log(resp.data);
             })
             .catch((Err) => {
@@ -23,56 +23,38 @@ export default function AssignVolnt() {
             })
     }
 
-    const AssignVolunteer = (volemail) => {
-        axios.put(`http://localhost:9000/admin/volunteer_sign_up/${volemail}`)
-            .then((resp) => {
-                console.log(resp);
-                getData()
-            })
-            .catch((Err) => {
-                console.log("Errror", Err);
-            })
-    }
-
-
     return (
         <div>
-            <Admheader />
+            <Orgheader />
             <div className='container'>
                 <div>
                     <div className='row'>
                         <div >
                             {
-                                volunteers.length>0 ?
+                                donations.length>0 ?
                                     <div className='row'>
                                         {
-                                            volunteers.map((data) =>
+                                            donations.map((data) =>
                                                 <div className="col-lg-4 col-sm-6">
                                                     <div className="card" style={{ borderRadius: '7px', marginBottom: '15px' }}>
                                                         <div className="card-body">
                                                             <h5 className="card-title">
                                                                 <div style={{ textAlign: 'center' }}>
-                                                                    <b>Volunteer</b><br/>
-                                                                    <b>{data.username}</b>
+                                                                    <b>{data.category}</b><br />
                                                                 </div>
                                                             </h5>
                                                             <br />
                                                             <div>
                                                                 <div style={{ display: 'inline-flex' }}>
-                                                                    <b>Email: </b><p>{data.email}</p>
+                                                                    <b>Donator_Email: </b><p>{data.donator_email}</p>
                                                                 </div>
 
                                                                 <div style={{ display: 'inline-flex' }}>
-                                                                    <b>Mobile: </b><p>{data.mobile}</p>
+                                                                    <b>Quantity: </b><p>{data.quantity}</p>
                                                                 </div>
-                                                                <div style={{ display: 'inline-flex' }}>
-                                                                    <b>Address: </b><p>{data.address}</p>
-                                                                </div>
-                                                                <div style={{ display: 'inline-flex' }}>
-                                                                    <b>prior_experience: </b><p>{data.prior_experience}</p>
-                                                                </div>
-                                                                <div>
-                                                                    <button className='btn btn-secondary' onClick={(e) => { AssignVolunteer(data.email) }}>Assign</button>
+                                                                <div className='form-group'>
+                                                                    <b>Description: </b><br />
+                                                                    <textarea className='form-control' rows="3" disabled>{data.description_of_item}</textarea>
                                                                 </div>
                                                             </div>
                                                             <br />
@@ -86,7 +68,7 @@ export default function AssignVolnt() {
                                     <div>
                                         <div className='jumbotron'>
 
-                                            No new Volunteers has been registered
+                                        No new donations has been registered
                                         </div>
                                     </div>
                             }

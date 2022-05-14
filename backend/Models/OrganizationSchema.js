@@ -27,6 +27,7 @@ const OrganizationSchema = new mongoose.Schema({
     },
     joining_status : {
         type:Boolean,
+        default: false
     }
 })
 

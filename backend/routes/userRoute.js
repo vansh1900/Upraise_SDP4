@@ -12,7 +12,8 @@ router.post('/donations/add',async(req,res)=>{
         pickup_address : req.body.pickup_address,
         mobile : req.body.mobile,
         pickup_status : false,
-        distribution_status : false
+        distribution_status : false,
+        picked_by:""
     })
     try{
         const donationSave = await donation.save()
@@ -25,7 +26,7 @@ router.post('/donations/add',async(req,res)=>{
 
 router.get('/getdonations/:email',async(req,res)=>{
     try{
-        const donationList = await donationModel.find({email:req.params.email})
+        const donationList = await donationModel.find({donator_email:req.params.email})
         res.json(donationList)
     }
     catch(err){
@@ -34,7 +35,6 @@ router.get('/getdonations/:email',async(req,res)=>{
 })
 
 router.post('/add',async (req,res)=>{
-    console.log("body",req.body);
     const user = new userModel({
         username : req.body.username,
         email : req.body.email,

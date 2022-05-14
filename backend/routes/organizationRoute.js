@@ -105,4 +105,15 @@ router.put('/update/:email',async (req,res)=>{
     }
 })
 
+router.get('/allRequests/:org_name',async(req,res) => {
+    try{
+        const data=await Donations.find({consumer_details: req.params.org_name})
+        res.send(data)
+    }
+    catch(err)
+    {
+        res.send(err)
+    }
+})
+
 module.exports = router

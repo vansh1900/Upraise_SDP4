@@ -20,9 +20,9 @@ function Index() {
               <img src={abc} className='img-fluid image'></img>
             </center>
             <center>
-            <div className='row paragraph'>
+            {/* <div className='row paragraph'>
                 <p>We at 'Upraise' maintain integrity and commitment towards the donations. We value the money of the donators who donated their valuable money and we are 100% sure that your money reach to the needy people.</p>
-            </div>
+            </div> */}
             </center>
         </div>
     </div>

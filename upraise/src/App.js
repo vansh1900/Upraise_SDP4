@@ -16,6 +16,11 @@ import My_transportations from './Components/Volunteer/My_Transportation/My_tran
 import AdmHome from './Components/Admin/AdminHome/AdmHome';
 import AssignOrg from './Components/Admin/AssignOrg/AssignOrg';
 import AssignVolnt from './Components/Admin/AssignVolunteers/AssignVolnt';
+import Orghome from './Components/Organization/OrgHome/Orghome';
+import NewRequest from './Components/Organization/Add_Request/NewRequest';
+import Alldonations from './Components/Admin/All_Donations/Alldonations';
+import NewDonations from './Components/Admin/NewDonations/NewDonations';
+import Allrequests from './Components/Organization/All_Requests/Allrequests';
 
 function App() {
   return (
@@ -40,6 +45,12 @@ function App() {
             <Route exact path='/admin' element={<AdmHome/>}></Route>
             <Route exact path='/assignorg' element={<AssignOrg/>}></Route>
             <Route exact path='/assignvolunteer' element={<AssignVolnt/>}></Route>
+            <Route exact path='/adm_alldonation' element={<Alldonations/>}></Route>
+            <Route exact path='/newdonations' element={<NewDonations/>}></Route>
+
+            <Route exact path='/organization' element={<Orghome/>}></Route>
+            <Route exact path='/newRequest' element={<NewRequest/>}></Route>
+            <Route exact path='/allRequest' element={<Allrequests/>}></Route>
 
             <Route exact path='/logout' element={<Logout/>}></Route>
             

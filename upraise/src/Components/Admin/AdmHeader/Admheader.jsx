@@ -24,10 +24,10 @@ export default function Admheader() {
                                     <Link className="nav-link" to="/assignorg">Organizations</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/transport">Assign_Donation</Link>
+                                    <Link className="nav-link" to="/newdonations">New_Donation</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/all_donations">All_Donations</Link>
+                                    <Link className="nav-link" to="/adm_alldonation">All_Donations</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/logout">Logout</Link>

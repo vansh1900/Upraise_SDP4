@@ -13,13 +13,14 @@ router.get('/donations/available',async(req,res)=>{
     }
 })
 
-router.put('donation/accept',async(req,res)=>{
+router.put('/donation/accept',async(req,res)=>{
     try{
-        await Donations.findByIdAndUpdate(req.body.id,
+        var data=await Donations.findByIdAndUpdate(req.body.id,
         {
             picked_by: req.body.email,
             pickup_status: true
-        })
+        },{new: true})
+        res.send(data)
     }
     catch(err){
         res.send('Error')
@@ -93,6 +94,17 @@ router.put('/update/:email',async (req,res)=>{
     }
     catch(err){
         res.json({error: err})
+    }
+})
+
+router.get('/myservices/:email',async(req,res)=>{
+    try{
+        const serviceList = await Donations.find({picked_by: req.params.email})
+        console.log(serviceList);
+        res.json(serviceList)
+    }
+    catch(err){
+        res.send('Error is '+ err)
     }
 })
 

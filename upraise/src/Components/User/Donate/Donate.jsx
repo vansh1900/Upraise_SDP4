@@ -21,25 +21,30 @@ export default function Donate() {
 
   const DonateHandle = () => {
     const obj = {
-      "donator_email":userdetails.email,
-      "category":category,
+      "donator_email": userdetails.email,
+      "category": category,
       "quantity": quantity,
       "description_of_item": description,
-      "pickup_address":address,
+      "pickup_address": address,
       "mobile": mobile
     }
 
-    axios.post('http://localhost:9000/user/donations/add',obj)
-    .then((resp) => {
-      console.log(resp);
-      seterrormessage("")
-      setsuccessmessage("Thank you! Your donation helps us a lot and please wait our Valunteer approaches you and collect them.")
-    })
-    .catch((Err) => {
-      setsuccessmessage("")
-      seterrormessage("Please try agian")
-      console.log(Err);
-    })
+    axios.post('http://localhost:9000/user/donations/add', obj)
+      .then((resp) => {
+        console.log(resp);
+        seterrormessage("")
+        setcategory("")
+        setquantity("")
+        setaddress("")
+        setmobile("")
+        setdescription("")
+        setsuccessmessage("Thank you! Your donation helps us a lot and please wait our Valunteer approaches you and collect them.")
+      })
+      .catch((Err) => {
+        setsuccessmessage("")
+        seterrormessage("Please try agian")
+        console.log(Err);
+      })
 
   }
 
@@ -48,9 +53,25 @@ export default function Donate() {
     <div>
       <Usernav />
       <div>
+        {
+          errormessage ?
+            <div>
+              <div className="alert alert-danger">
+                {errormessage}
+              </div>
+            </div>
+            : ""}
+        {
+          successmessage ?
+            <div>
+              <div className="alert alert-success">
+                {successmessage}
+              </div>
+            </div>
+            : ""}
         <div className="container">
           <div className="signupform">
-            
+
             <h3 className="heading">Donate</h3>
             <div className="main">
               <div className="form-group">
@@ -79,7 +100,7 @@ export default function Donate() {
               <div className="form-group">
                 <input type="text" placeholder="Pickup Address" className="form-control" value={address} onChange={(e) => { setaddress(e.target.value) }} required />
               </div>
-              <button className="btn btn-primary" type="submit" onClick={() => { DonateHandle() }}>Register</button>
+              <button className="btn btn-primary" type="submit" onClick={() => { DonateHandle() }}>Donate</button>
             </div>
           </div>
         </div>
