@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import './userregister.css'
 import { Link } from 'react-router-dom';
 import { PostVolunteerDetails } from '../../../Services/AuthenticateService';
+import HomeHeader from '../HomeHeader/HomeHeader';
 
 export default function VolunteerRegister() {
-    const [username, setusername] = useState("")
+	const [username, setusername] = useState("")
 	const [email, setemail] = useState("")
 	const [mobile, setmobile] = useState("")
 	const [password, setpassword] = useState("")
@@ -18,7 +19,7 @@ export default function VolunteerRegister() {
 	const [confirmpassworderror, setconfirmpassworderror] = useState("")
 	const [Errormessage, setErrormessage] = useState("")
 	const [successmessage, setsuccessmessage] = useState("")
-	const [prior_experience, setprior_experience] = useState(0)
+	const [prior_experience, setprior_experience] = useState()
 
 	useEffect(() => {
 		setusername("")
@@ -30,28 +31,24 @@ export default function VolunteerRegister() {
 	}, [])
 
 	const SignupHandler = () => {
-		const a1=ValidateMobile();
-		const a2=validatePassword();
-		const a3=ValidateAddress();
-		const a4=ValidateUsername();
-		const a5=ValidateEmail();
-		if(a1===true && a2===true && a3===true && a4===true && a5==true)
-		{
-			if(password === confirmpassword)
-			{
+		const a1 = ValidateMobile();
+		const a2 = validatePassword();
+		const a3 = ValidateAddress();
+		const a4 = ValidateUsername();
+		const a5 = ValidateEmail();
+		if (a1 === true && a2 === true && a3 === true && a4 === true && a5 == true) {
+			if (password === confirmpassword) {
 				setmobileerror("")
 				setconfirmpassworderror("")
 				setaddresserror("")
 				setpassworderror("")
 				AddUserToDB()
 			}
-			else
-			{
+			else {
 				setconfirmpassworderror("does not match with your password.")
 			}
 		}
-		else
-		{
+		else {
 			setErrormessage("Please fill all the fields.")
 		}
 	}
@@ -59,17 +56,25 @@ export default function VolunteerRegister() {
 	const AddUserToDB = () => {
 		const obj = {
 			"username": username,
+			"email": email,
 			"mobile": mobile,
-			"address":address,
-			"password": password
+			"address": address,
+			"password": password,
+			"prior_experience": prior_experience
 		}
-		// PostUserDetails(obj)
-		// .then((resp) => {
-		// 	console.log(resp);
-		// 	console.log(resp.data);
-		// 	window.alert('success')
-		// 	setsuccessmessage("Successfully Registered")
-		// })
+		PostVolunteerDetails(obj)
+			.then((resp) => {
+				if(resp.data.status=="Error")
+				{
+					setErrormessage("Please give valid credentials")
+					setsuccessmessage("")
+				}
+				else
+				{
+					localStorage.setItem("details",resp.data.details)
+					setsuccessmessage("Successfully Registered")
+				}
+			})
 	}
 
 	const ValidateUsername = () => {
@@ -82,13 +87,13 @@ export default function VolunteerRegister() {
 
 	const ValidateEmail = () => {
 		var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        if (email.match(validRegex)) {
-            setemailerror("")
-            return true;
-        }
-        setemailerror("You have entered an invalid email address!")
-        return false;
-    }
+		if (email.match(validRegex)) {
+			setemailerror("")
+			return true;
+		}
+		setemailerror("You have entered an invalid email address!")
+		return false;
+	}
 
 	const ValidateMobile = () => {
 		if (mobile.length !== 10) {
@@ -133,22 +138,23 @@ export default function VolunteerRegister() {
 
 	return (
 		<div>
+			<HomeHeader />
 			{
-                Errormessage ?
-                    <div>
-                        <div className="alert alert-danger">
-                            {Errormessage}
-                        </div>
-                    </div>
-                    : ""}
-            {
-                successmessage ?
-                    <div>
-                        <div className="alert alert-success">
-                            {successmessage}
-                        </div>
-                    </div>
-                    : ""}
+				Errormessage ?
+					<div>
+						<div className="alert alert-danger">
+							{Errormessage}
+						</div>
+					</div>
+					: ""}
+			{
+				successmessage ?
+					<div>
+						<div className="alert alert-success">
+							{successmessage}
+						</div>
+					</div>
+					: ""}
 			<div className="container">
 				<div className="signupform">
 					<div className="userlogo">
@@ -159,59 +165,61 @@ export default function VolunteerRegister() {
 						<div className="form-group">
 							<input type="text" className="form-control" placeholder="username" value={username} onChange={(e) => { setusername(e.target.value) }} required />
 							{
-                                usernameerror ?
-                                    <div>
-                                        <small style={{ color: 'red' }}>{usernameerror}</small>
-                                    </div>
-                                    : ""}
+								usernameerror ?
+									<div>
+										<small style={{ color: 'red' }}>{usernameerror}</small>
+									</div>
+									: ""}
 						</div>
 						<div className="form-group">
-                            <input type="email" name="email" placeholder="email" value={email} onChange={(e) => { setemail(e.target.value) }} className="form-control" required />
-                            {
-                                emailerror ?
-                                    <div>
-                                        <small style={{ color: 'red' }}>{emailerror}</small>
-                                    </div>
-                                    : ""}
-                        </div>
+							<input type="email" name="email" placeholder="email" value={email} onChange={(e) => { setemail(e.target.value) }} className="form-control" required />
+							{
+								emailerror ?
+									<div>
+										<small style={{ color: 'red' }}>{emailerror}</small>
+									</div>
+									: ""}
+						</div>
 						<div className="form-group">
 							<input type="tel" className="form-control" placeholder="Mobile Number" value={mobile} onChange={(e) => { setmobile(e.target.value) }} required />
 							{
-                                mobileerror ?
-                                    <div>
-                                        <small style={{ color: 'red' }}>{mobileerror}</small>
-                                    </div>
-                                    : ""}
+								mobileerror ?
+									<div>
+										<small style={{ color: 'red' }}>{mobileerror}</small>
+									</div>
+									: ""}
 						</div>
-						<input type="number" className="form-control" value={prior_experience} onChange={(e) => { setprior_experience(e.target.value) }} required />
+						<div className="form-group">
+							<input type="number" className="form-control" placeholder='Experience ' value={prior_experience} onChange={(e) => { setprior_experience(e.target.value) }} required />
+						</div>
 						<div className="form-group">
 							<textarea placeholder='Address ...' className="form-control" rows="3" value={address} onChange={(e) => { setaddress(e.target.value) }} required></textarea>
 							{
-                                addresserror ?
-                                    <div>
-                                        <small style={{ color: 'red' }}>{addresserror}</small>
-                                    </div>
-                                    : ""}
+								addresserror ?
+									<div>
+										<small style={{ color: 'red' }}>{addresserror}</small>
+									</div>
+									: ""}
 						</div>
 						<div className="form-group">
 							<input type="password" placeholder="password" className="form-control" value={password} onChange={(e) => { setpassword(e.target.value) }} required />
 							{
-                                passworderror ?
-                                    <div>
-                                        <small style={{ color: 'red' }}>{passworderror}</small>
-                                    </div>
-                                    : ""}
+								passworderror ?
+									<div>
+										<small style={{ color: 'red' }}>{passworderror}</small>
+									</div>
+									: ""}
 						</div>
 						<div className="form-group">
 							<input type="password" placeholder="Confirm password" value={confirmpassword} onChange={(e) => { setconfirmpassword(e.target.value) }} className="form-control" required />
 							{
-                                confirmpassworderror ?
-                                    <div>
-                                        <small style={{ color: 'red' }}>{confirmpassworderror}</small>
-                                    </div>
-                                    : ""}
+								confirmpassworderror ?
+									<div>
+										<small style={{ color: 'red' }}>{confirmpassworderror}</small>
+									</div>
+									: ""}
 						</div>
-						<button className="btn btn-primary" type="submit" onClick={() => {SignupHandler()}}>Register</button>
+						<button className="btn btn-primary" type="submit" onClick={() => { SignupHandler() }}>Register</button>
 						<p className="already">
 							Already have an account: <Link className="anchor" to="/login" style={{ color: 'blue' }}>login</Link>
 						</p>

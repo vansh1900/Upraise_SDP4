@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './login.css'
 import { Link } from 'react-router-dom';
-// import { AuthenticateUser } from '../../Services/Authservice';
+import HomeHeader from '../HomeHeader/HomeHeader';
 import { CheckAdminCred, AuthenticateUser, AuthenticateVolunteer, AuthenticateOrg } from '../../../Services/AuthenticateService';
 
 export default function Login() {
@@ -36,9 +36,9 @@ export default function Login() {
     }
 
     const AuthenticateTheUser = () => {
+        setsuccessmessage("")
         setemailerror("")
         setpassworderror("")
-        console.log(category);
         if(category=="donator")
         {
             AuthenticateUser(email,password)
@@ -49,11 +49,14 @@ export default function Login() {
                 else {
                     if(userdetails.data.status=="Success")
                     {
-                        window.alert("login success")
+                        setsuccessmessage("Successfully logged in")
+                        localStorage.setItem('details',userdetails.data.details)
+                        setErrormessage("")
                     }
                     else
                     {
                         setErrormessage("Invalid Credentials");
+                        setsuccessmessage("")
                     }
                     console.log(userdetails);
                 }
@@ -69,11 +72,23 @@ export default function Login() {
                 else {
                     if(details.data.status=="Success")
                     {
-                        window.alert("login success")
+                        const data=details.data.details;
+                        if(data.joining_status==true)
+                        {
+                            setsuccessmessage("Successfully logged in")
+                            localStorage.setItem('details',details.data.details)
+                            setErrormessage("")
+                        }
+                        if(data.joining_status==false)
+                        {
+                            setsuccessmessage("")
+                            setErrormessage("Please wait upto the admin give access.")
+                        }
                     }
                     else
                     {
                         setErrormessage("Invalid Credentials");
+                        setsuccessmessage("")
                     }
                 }
             })
@@ -88,11 +103,24 @@ export default function Login() {
                 else {
                     if(details.data.status=="Success")
                     {
-                        window.alert("login success")
+                        console.log(details.data);
+                        const data=details.data.details;
+                        if(data.joining_status==true)
+                        {
+                            setsuccessmessage("Successfully logged in")
+                            localStorage.setItem('details',details.data.details)
+                            setErrormessage("")
+                        }
+                        if(data.joining_status==false)
+                        {
+                            setsuccessmessage("")
+                            setErrormessage("Please wait upto the admin give access.")
+                        }
                     }
                     else
                     {
                         setErrormessage("Invalid Credentials");
+                        setsuccessmessage("")
                     }
                 }
             })
@@ -152,6 +180,11 @@ export default function Login() {
             .catch((err) => {
                 setcategoryerror("category is important");
             })
+            return false;
+        }
+        else
+        {
+            return true
         }
 
     }
@@ -159,6 +192,7 @@ export default function Login() {
 
     return (
         <div>
+            <HomeHeader />
             {
                 Errormessage ?
                     <div>
@@ -194,7 +228,7 @@ export default function Login() {
                         <br />
                         <div className='form-group'>
                             <select name='category' className='form-control' value={category} onChange={(e) => {setcategory(e.target.value)}}>
-                                <option value="" disabled>select</option>
+                                <option value="" disabled>click to select</option>
                                 <option value="donator">Donator</option>
                                 <option value="volunteer">Volunteer</option>
                                 <option value="Organization">Organization</option>

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import './userregister.css'
 import { Link } from 'react-router-dom';
 import orgi from './images/organizationi.png';
+import HomeHeader from '../HomeHeader/HomeHeader';
 
 export default function Register() {
     return (
         <div>
-            <section id="register" className="section-100 bg-white">
+            <HomeHeader />
+            <section id="register" style={{marginTop: '50px'}} className="section-100 bg-white">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-4 col-sm-6">

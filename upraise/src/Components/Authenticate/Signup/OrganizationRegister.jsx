@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './userregister.css'
 import { Link } from 'react-router-dom';
 import { PostOrgDetails } from '../../../Services/AuthenticateService';
+import HomeHeader from '../HomeHeader/HomeHeader';
 
 export default function OrganizationRegister() {
     const [username, setusername] = useState("")
@@ -18,6 +19,7 @@ export default function OrganizationRegister() {
 	const [confirmpassworderror, setconfirmpassworderror] = useState("")
 	const [Errormessage, setErrormessage] = useState("")
 	const [successmessage, setsuccessmessage] = useState("")
+	const [organization_name, setorganization_name] = useState("")
 
 	useEffect(() => {
 		setusername("")
@@ -58,17 +60,30 @@ export default function OrganizationRegister() {
 	const AddUserToDB = () => {
 		const obj = {
 			"username": username,
+			"email":email,
 			"mobile": mobile,
 			"address":address,
-			"password": password
+			"password": password,
+			"organization_name":organization_name
 		}
-		// PostUserDetails(obj)
-		// .then((resp) => {
-		// 	console.log(resp);
-		// 	console.log(resp.data);
-		// 	window.alert('success')
-		// 	setsuccessmessage("Successfully Registered")
-		// })
+		console.log("post data = ",obj);
+		PostOrgDetails(obj)
+		.then((resp) => {
+			if(resp.data.status=="Error")
+			{
+				setErrormessage("Please give valid credentials")
+				setsuccessmessage("")
+			}
+			else
+			{
+				localStorage.setItem("details",resp.data.details)
+				setsuccessmessage("Successfully Registered")
+			}
+			// console.log(resp);
+			// console.log(resp.data);
+			// window.alert('success')
+			// setsuccessmessage("Successfully Registered")
+		})
 	}
 
 	const ValidateUsername = () => {
@@ -132,6 +147,7 @@ export default function OrganizationRegister() {
 
 	return (
 		<div>
+			<HomeHeader />
 			{
                 Errormessage ?
                     <div>
@@ -163,6 +179,9 @@ export default function OrganizationRegister() {
                                         <small style={{ color: 'red' }}>{usernameerror}</small>
                                     </div>
                                     : ""}
+						</div>
+						<div className="form-group">
+							<input type="text" className="form-control" placeholder="Organization name" value={organization_name} onChange={(e) => { setorganization_name(e.target.value) }} required />
 						</div>
 						<div className="form-group">
                             <input type="email" name="email" placeholder="email" value={email} onChange={(e) => { setemail(e.target.value) }} className="form-control" required />

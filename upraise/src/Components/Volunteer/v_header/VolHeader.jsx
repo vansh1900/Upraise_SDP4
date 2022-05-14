@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import './usernav.css';
+import './vheader.css';
 
-export default function Usernav() {
+export default function VolHeader() {
     return (
         <div>
             <div>
@@ -17,10 +17,10 @@ export default function Usernav() {
                     <div className="collapse navbar-collapse d-flex justify-content-right" id="navbarSupportedContent">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link" to="#">Donate</Link>
+                                <Link className="nav-link" to="#">Transport</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/mydonations">My_Donations</Link>
+                                <Link className="nav-link" to="/mydonations">My_Transportantions</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/userprofile">Profile</Link>

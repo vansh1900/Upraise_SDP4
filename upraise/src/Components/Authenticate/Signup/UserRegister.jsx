@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './userregister.css'
 import { Link } from 'react-router-dom';
 import { PostUserDetails } from '../../../Services/AuthenticateService';
+import HomeHeader from '../HomeHeader/HomeHeader';
 
 export default function UserRegister() {
     const [username, setusername] = useState("")
@@ -65,10 +66,16 @@ export default function UserRegister() {
 		}
 		PostUserDetails(obj)
 		.then((resp) => {
-			console.log(resp);
-			console.log(resp.data);
-			window.alert('success')
-			setsuccessmessage("Successfully Registered")
+			if(resp.data.status=="Error")
+			{
+				setErrormessage("Please give valid credentials")
+				setsuccessmessage("")
+			}
+			else
+			{
+				localStorage.setItem("details",resp.data.details)
+				setsuccessmessage("Successfully Registered")
+			}
 		})
 	}
 
@@ -133,6 +140,7 @@ export default function UserRegister() {
 
 	return (
 		<div>
+			<HomeHeader />
 			{
                 Errormessage ?
                     <div>
