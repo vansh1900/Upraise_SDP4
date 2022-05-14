@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useState, useEffect } from 'react'
 import './userhome.css';
 import Usernav from '../UserNavbar/Usernav'
 import imran from '../../Images/imran.png';
@@ -7,6 +7,12 @@ import aboutimg from '../../Images/aboutimg.png';
 import donate from '../../Images/donate.jpg';
 
 export default function UserHome() {
+
+  useEffect(() => {
+    const det = JSON.parse(localStorage.getItem('details'));
+    // console.log(det);
+  }, [])
+  
   return (
     <div>
       <Usernav />

@@ -3,6 +3,7 @@ import './userregister.css'
 import { Link } from 'react-router-dom';
 import { PostOrgDetails } from '../../../Services/AuthenticateService';
 import HomeHeader from '../HomeHeader/HomeHeader';
+import { useNavigate } from "react-router-dom";
 
 export default function OrganizationRegister() {
     const [username, setusername] = useState("")
@@ -20,6 +21,8 @@ export default function OrganizationRegister() {
 	const [Errormessage, setErrormessage] = useState("")
 	const [successmessage, setsuccessmessage] = useState("")
 	const [organization_name, setorganization_name] = useState("")
+
+	var navigate = useNavigate();
 
 	useEffect(() => {
 		setusername("")
@@ -76,8 +79,7 @@ export default function OrganizationRegister() {
 			}
 			else
 			{
-				localStorage.setItem("details",resp.data.details)
-				setsuccessmessage("Successfully Registered")
+				navigate("/login");
 			}
 			// console.log(resp);
 			// console.log(resp.data);

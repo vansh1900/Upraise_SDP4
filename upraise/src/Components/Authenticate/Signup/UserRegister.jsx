@@ -3,6 +3,7 @@ import './userregister.css'
 import { Link } from 'react-router-dom';
 import { PostUserDetails } from '../../../Services/AuthenticateService';
 import HomeHeader from '../HomeHeader/HomeHeader';
+import { useNavigate } from "react-router-dom";
 
 export default function UserRegister() {
     const [username, setusername] = useState("")
@@ -19,6 +20,8 @@ export default function UserRegister() {
 	const [confirmpassworderror, setconfirmpassworderror] = useState("")
 	const [Errormessage, setErrormessage] = useState("")
 	const [successmessage, setsuccessmessage] = useState("")
+
+	var navigate = useNavigate();
 
 	useEffect(() => {
 		setusername("")
@@ -73,8 +76,9 @@ export default function UserRegister() {
 			}
 			else
 			{
-				localStorage.setItem("details",resp.data.details)
-				setsuccessmessage("Successfully Registered")
+				// localStorage.setItem("details",resp.data.details)
+				// setsuccessmessage("Successfully Registered")
+				navigate("/login");
 			}
 		})
 	}

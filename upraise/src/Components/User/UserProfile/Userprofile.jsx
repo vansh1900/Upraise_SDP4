@@ -7,6 +7,11 @@ export default function Userprofile() {
 
   const [username, setusername] = useState("")
 
+  useEffect(() => {
+    const det = JSON.parse(localStorage.getItem('details'));
+    // console.log(det);
+  }, [])
+
   return (
     <div>
       <Usernav />
@@ -20,7 +25,7 @@ export default function Userprofile() {
             <br/>
             <div className="d-flex justify-content-center">
               <form id="profileUpload">
-                <input type="file" className="fileinput" id="id_file" name="profilepic" accept="image/png, image/jpeg" />
+                {/* <input type="file" className="fileinput" id="id_file" name="profilepic" accept="image/png, image/jpeg" /> */}
               </form>
             </div>
             <div>

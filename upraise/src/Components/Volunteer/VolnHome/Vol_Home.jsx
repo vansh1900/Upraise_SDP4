@@ -1,6 +1,6 @@
 import React from 'react'
 import './volhome.css';
-import Usernav from '../UserNavbar/Usernav'
+import VolHeader from '../v_header/VolHeader';
 import imran from '../../Images/imran.png';
 import faqimg from '../../Images/faqimg.png';
 import aboutimg from '../../Images/aboutimg.png';
@@ -9,7 +9,7 @@ import donate from '../../Images/donate.jpg';
 export default function Vol_Home() {
   return (
     <div>
-      <Usernav />
+      <VolHeader />
 
       <div class="top">
         <div class="leftcontent">

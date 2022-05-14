@@ -3,6 +3,7 @@ import './login.css'
 import { Link } from 'react-router-dom';
 import HomeHeader from '../HomeHeader/HomeHeader';
 import { CheckAdminCred, AuthenticateUser, AuthenticateVolunteer, AuthenticateOrg } from '../../../Services/AuthenticateService';
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
@@ -14,6 +15,8 @@ export default function Login() {
     const [successmessage, setsuccessmessage] = useState("")
     const [category, setcategory] = useState("")
     const [categoryerror, setcategoryerror] = useState("")
+
+    var navigate = useNavigate();
 
     useEffect(() => {
         setemail("")
@@ -39,6 +42,13 @@ export default function Login() {
         setsuccessmessage("")
         setemailerror("")
         setpassworderror("")
+        CheckAdminCred(email,password)
+        .then((resp) => {
+            navigate("/admin");
+        })
+        .catch((err) => {
+            setcategoryerror("category is important");
+        })
         if(category=="donator")
         {
             AuthenticateUser(email,password)
@@ -50,8 +60,10 @@ export default function Login() {
                     if(userdetails.data.status=="Success")
                     {
                         setsuccessmessage("Successfully logged in")
-                        localStorage.setItem('details',userdetails.data.details)
+                        localStorage.setItem('details',JSON.stringify(userdetails.data.details))
+                        console.log(userdetails.data.details);
                         setErrormessage("")
+                        navigate("/user");
                     }
                     else
                     {
@@ -60,6 +72,10 @@ export default function Login() {
                     }
                     console.log(userdetails);
                 }
+            })
+            .catch((err) => {
+                setErrormessage("Invalid Credentials");
+                setsuccessmessage("")
             })
         }
         else if(category=="volunteer")
@@ -76,8 +92,9 @@ export default function Login() {
                         if(data.joining_status==true)
                         {
                             setsuccessmessage("Successfully logged in")
-                            localStorage.setItem('details',details.data.details)
+                            localStorage.setItem('details',JSON.stringify(data))
                             setErrormessage("")
+                            navigate("/volunteer");
                         }
                         if(data.joining_status==false)
                         {
@@ -91,6 +108,10 @@ export default function Login() {
                         setsuccessmessage("")
                     }
                 }
+            })
+            .catch((err) => {
+                setErrormessage("Invalid Credentials");
+                setsuccessmessage("")
             })
         }
         else
@@ -108,8 +129,10 @@ export default function Login() {
                         if(data.joining_status==true)
                         {
                             setsuccessmessage("Successfully logged in")
-                            localStorage.setItem('details',details.data.details)
+                            localStorage.setItem('details',JSON.stringify(data))
+                            console.log(data);
                             setErrormessage("")
+                            navigate("/organization");
                         }
                         if(data.joining_status==false)
                         {
@@ -123,6 +146,10 @@ export default function Login() {
                         setsuccessmessage("")
                     }
                 }
+            })
+            .catch((err) => {
+                setErrormessage("Invalid Credentials");
+                setsuccessmessage("")
             })
         }
 
@@ -175,7 +202,7 @@ export default function Login() {
         {
             CheckAdminCred(email,password)
             .then((resp) => {
-                console.log("admin credentials")
+                navigate("/admin");
             })
             .catch((err) => {
                 setcategoryerror("category is important");

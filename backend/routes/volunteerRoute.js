@@ -34,16 +34,21 @@ router.post('/add',async (req,res)=>{
         mobile : req.body.mobile,
         password : req.body.password,
         prior_experience : req.body.prior_experience,
-        supporting_docs : req.body.supporting_docs,
-        joining_status : false
+        joining_status : false,
+        availability_status: false
     })
 
     try{
         const saveStatus = await volunteer.save();
-        res.json(saveStatus)
+        res.json({
+            "status":"Success",
+            "details": saveStatus
+        })
     }
     catch(err){
-        res.send('Error')
+        res.json({
+            "status":"Error"
+        })
     }
 })
 
@@ -53,22 +58,24 @@ router.get('/login/:email/:password',async (req,res)=>{
 
     try{
         // console.log(email,password);
-       const user =  await userModel.findOne({email:email})
+       const user =  await volunteerModel.findOne({email:email})
        res.setHeader("Content-Type", "application/json");
        if(user==null){
-            return res.status(404).json({status : "NotFound"});
+            return res.status(404).json({status : "Error"});
         //    res.json({status : "NotFound"})
        }
        else{
            if(user.password == password){
-            return res.status(200).json({status : "Success"});
+            return res.status(200).json({status : "Success",details:user});
             //    res.json({status : "Success"})
            }
-           return res.status(404).json({status : "NotFound"});
+           return res.status(404).json({status : "Error"});
        }
     }
     catch(err){
-        res.send('Error')
+        res.json({
+            "status":"Error"
+        })
     }
 })
 

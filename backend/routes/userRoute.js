@@ -23,6 +23,16 @@ router.post('/donations/add',async(req,res)=>{
     }
 })
 
+router.get('/getdonations/:email',async(req,res)=>{
+    try{
+        const donationList = await donationModel.find({email:req.params.email})
+        res.json(donationList)
+    }
+    catch(err){
+        res.send('Error is '+ err)
+    }
+})
+
 router.post('/add',async (req,res)=>{
     console.log("body",req.body);
     const user = new userModel({
@@ -34,13 +44,16 @@ router.post('/add',async (req,res)=>{
     })
 
     try{
-        console.log("before",user);
         const saveStatus = await user.save();
-        console.log(user);
-        res.json(saveStatus)
+        res.json({
+            "status":"Success",
+            "details": saveStatus
+        })
     }
     catch(err){
-        res.send('Error')
+        res.json({
+            "status":"Error"
+        })
     }
 })
 
@@ -53,19 +66,21 @@ router.get('/login/:email/:password',async (req,res)=>{
        const user =  await userModel.findOne({email:email})
        res.setHeader("Content-Type", "application/json");
        if(user==null){
-            return res.status(404).json({status : "NotFound"});
+            return res.status(404).json({status : "Error"});
         //    res.json({status : "NotFound"})
        }
        else{
            if(user.password == password){
-            return res.status(200).json({status : "Success"});
+            return res.status(200).json({status : "Success",details:user});
             //    res.json({status : "Success"})
            }
-           return res.status(404).json({status : "NotFound"});
+           return res.status(404).json({status : "Error"});
        }
     }
     catch(err){
-        res.send('Error')
+        res.json({
+            "status":"Error"
+        })
     }
 })
 

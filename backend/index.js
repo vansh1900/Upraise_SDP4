@@ -20,6 +20,8 @@ const volunteerRoute = require('./routes/volunteerRoute')
 app.use('/volunteer',volunteerRoute)
 const organizationRoute = require('./routes/organizationRoute')
 app.use('/org',organizationRoute)
+const adminroute = require('./routes/adminRouter')
+app.use('/admin',adminroute)
 
 app.listen(9000,()=>{
     console.log('Server started at port 9000')

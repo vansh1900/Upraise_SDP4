@@ -3,6 +3,7 @@ import './userregister.css'
 import { Link } from 'react-router-dom';
 import { PostVolunteerDetails } from '../../../Services/AuthenticateService';
 import HomeHeader from '../HomeHeader/HomeHeader';
+import { useNavigate } from "react-router-dom";
 
 export default function VolunteerRegister() {
 	const [username, setusername] = useState("")
@@ -20,6 +21,8 @@ export default function VolunteerRegister() {
 	const [Errormessage, setErrormessage] = useState("")
 	const [successmessage, setsuccessmessage] = useState("")
 	const [prior_experience, setprior_experience] = useState()
+
+	var navigate = useNavigate();
 
 	useEffect(() => {
 		setusername("")
@@ -71,8 +74,9 @@ export default function VolunteerRegister() {
 				}
 				else
 				{
-					localStorage.setItem("details",resp.data.details)
-					setsuccessmessage("Successfully Registered")
+					// localStorage.setItem("details",resp.data.details)
+					// setsuccessmessage("Successfully Registered")
+					navigate("/login");
 				}
 			})
 	}
